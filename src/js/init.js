@@ -34,8 +34,12 @@
 
 // Snowplow Asynchronous Queue
 window._snaq = window._snaq || [];
+
+// when www.aspace.co.uk upgrade the tracker we can change the next 2 splice to push (must be before trackPageView though
+window._snaq.splice(0, 0, ['enableActivityTracking', 30, 10]);
 // our "hard-coded" collector
-window._snaq.push(['setCollectorUrl', 'tag.persomi.com']);
+window._snaq.splice(0, 0, ['setCollectorUrl', 'tag.persomi.com']);
+window._snaq.push(['trackPageView']);
 
 
 var snowplow = require('./snowplow');
