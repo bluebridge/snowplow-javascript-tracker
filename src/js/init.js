@@ -34,6 +34,9 @@
 
 // Snowplow Asynchronous Queue
 window._snaq = window._snaq || [];
+// our "hard-coded" collector
+window._snaq.push(['setCollectorUrl', 'tag.persomi.com']);
+
 
 var snowplow = require('./snowplow');
 window.Snowplow = window.Snowplow || new snowplow.Snowplow();
