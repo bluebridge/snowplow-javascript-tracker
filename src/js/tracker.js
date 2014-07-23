@@ -344,6 +344,23 @@
 			image.src = configCollectorUrl + request;
 		}
 
+        /* Send a script (JSONP) request to the collector with a callback name */
+        function getJsonp(request, callbackName) {
+            // Let's check that we have a Url to ping
+            if (configCollectorUrl === null) {
+                throw "No SnowPlow collector configured, cannot track";
+            }
+
+            var head = document.getElementsByTagName('head')[0],
+                script = document.createElement('script'),
+                newSrc = configCollectorUrl + request;
+
+            script.type = 'text/javascript';
+            script.async = true;
+            script.src = newSrc + (newSrc.indexOf('?')+1 ? '&' : '?') + 'jsonp=' + callbackName;
+            head.appendChild(script);
+        }
+
 		/*
 		 * Send request
 		 */
@@ -351,7 +368,8 @@
 			var now = new Date();
 
 			if (!configDoNotTrack) {
-				getImage(request);
+				// getImage(request);
+                getJsonp(request, 'persomiRender');
 				mutSnowplowState.expireDateTime = now.getTime() + delay;
 			}
 		}
