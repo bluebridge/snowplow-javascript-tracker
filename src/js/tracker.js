@@ -718,6 +718,31 @@
 			sendRequest(request, configTrackerPause);
 		}
 
+        var itemEventMap = {
+            "ie_event": "ie_e",
+            "ie_id": "ie_id",
+            "ie_name": "ie_nm",
+            "ie_price": "ie_pr",
+            "ie_displayformat": "ie_df",
+            "ie_rank": "ie_rnk",
+            "ie_location": "ie_loc"
+        }
+        /**
+         * Log an event that ocurred on an Item/Product. Example:
+         * View, Add to Basket, Remove from Basket, Wish for, Tweet, Like, etc?
+        */
+        function logItemEvent(event, item) {
+            var sb = payload.payloadBuilder(configEncodeBase64),
+                property;
+            sb.add('e', 'ie'); // 'ie' for Item Event
+            sb.add('ie_e', event); // ie_event for action or event type
+            for (property in item) {
+                sb.add(itemEventMap[property], item[property]);
+            }
+            var request = getRequest(sb, 'itemEvent');
+            sendRequest(request, configTrackerPause);
+        }
+
 		/**
 		 * Log a structured event happening on this page
 		 *
@@ -1487,6 +1512,10 @@
 			trackStructEvent: function (category, action, label, property, value, context) {
 				logStructEvent(category, action, label, property, value, context);                   
 			},
+
+            trackItemEvent: function (event, item) {
+                logItemEvent(event, item);
+            },
 
 			/**
 			 * Track an unstructured event happening on this page.
