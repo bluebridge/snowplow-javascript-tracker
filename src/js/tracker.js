@@ -723,6 +723,9 @@
             "ie_id": "ie_id",
             "ie_name": "ie_nm",
             "ie_price": "ie_pr",
+            "ie_price_sale": "ie_prs",
+            "ie_in_stock": "ie_stk",
+            "ie_quantity": "ie_qu",
             "ie_displayformat": "ie_df",
             "ie_rank": "ie_rnk",
             "ie_location": "ie_loc"
