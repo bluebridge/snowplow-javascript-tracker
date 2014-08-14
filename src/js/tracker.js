@@ -608,7 +608,7 @@
                 }
             }
             if (!!persomiJSONP) {
-                sb.addRaw('persomi-JSONP', persomiJSONP);
+                sb.addRaw('jsonp', persomiJSONP);
                 if (detectors.hasLocalStorage()) {
                     windowAlias.localStorage.removeItem('persomiJSONP');
                 } else if (detectors.hasCookies()) {
