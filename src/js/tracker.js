@@ -371,8 +371,10 @@
                 var persomiJSONP = null;
                 if (detectors.hasLocalStorage()) {
                     persomiJSONP = windowAlias.localStorage.persomiJSONP;
+                    windowAlias.localStorage.removeItem('persomiJSONP');
                 } else if (detectors.hasCookies()) {
                     persomiJSONP = cookie.getCookie('persomi-JSONP');
+                    cookie.eraseCookie('persomi-JSONP');
                 }
                 if (!!persomiJSONP) {
                     getJsonp(request);
@@ -609,11 +611,6 @@
             }
             if (!!persomiJSONP) {
                 sb.addRaw('jsonp', persomiJSONP);
-                if (detectors.hasLocalStorage()) {
-                    windowAlias.localStorage.removeItem('persomiJSONP');
-                } else if (detectors.hasCookies()) {
-                    cookie.eraseCookie('persomi-JSONP');
-                }
             }
 
 			// Encode all these
