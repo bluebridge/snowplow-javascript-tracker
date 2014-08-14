@@ -345,7 +345,7 @@
 		}
 
         /* Send a script (JSONP) request to the collector with a callback name */
-        function getJsonp(request, callbackName) {
+        function getJsonp(request) {
             // Let's check that we have a Url to ping
             if (configCollectorUrl === null) {
                 throw "No SnowPlow collector configured, cannot track";
@@ -357,7 +357,7 @@
 
             script.type = 'text/javascript';
             script.async = true;
-            script.src = newSrc + (newSrc.indexOf('?')+1 ? '&' : '?') + 'jsonp=' + callbackName;
+            script.src = newSrc; // + (newSrc.indexOf('?')+1 ? '&' : '?') + 'jsonp=' + callbackName;
             head.appendChild(script);
         }
 
@@ -368,8 +368,18 @@
 			var now = new Date();
 
 			if (!configDoNotTrack) {
-				// getImage(request);
-                getJsonp(request, 'persomiRender');
+                var persomiJSONP = null;
+                if (detectors.hasLocalStorage()) {
+                    persomiJSONP = windowAlias.localStorage.persomiJSONP;
+                } else if (detectors.hasCookies()) {
+                    persomiJSONP = cookie.getCookie('persomi-JSONP');
+                }
+                if (!!persomiJSONP) {
+                    getJsonp(request);
+                } else {
+                    getImage(request);
+                }
+
 				mutSnowplowState.expireDateTime = now.getTime() + delay;
 			}
 		}
@@ -581,10 +591,13 @@
 			sb.addRaw('duid', _domainUserId); // Set to our local variable
 
             var persomiPreview = null;
+            var persomiJSONP = null;
             if (detectors.hasLocalStorage()) {
                 persomiPreview = windowAlias.localStorage.persomiPreviewSet;
+                persomiJSONP = windowAlias.localStorage.persomiJSONP;
             } else if (detectors.hasCookies()) {
                 persomiPreview = cookie.getCookie('persomi-preview-set');
+                persomiJSONP = cookie.getCookie('persomi-JSONP');
             }
             if (!!persomiPreview) {
                 sb.addRaw('persomi-preview', persomiPreview);
@@ -592,6 +605,14 @@
                     windowAlias.localStorage.removeItem('persomiPreviewSet');
                 } else if (detectors.hasCookies()) {
                     cookie.eraseCookie('persomi-preview-set');
+                }
+            }
+            if (!!persomiJSONP) {
+                sb.addRaw('persomi-JSONP', persomiJSONP);
+                if (detectors.hasLocalStorage()) {
+                    windowAlias.localStorage.removeItem('persomiJSONP');
+                } else if (detectors.hasCookies()) {
+                    cookie.eraseCookie('persomi-JSONP');
                 }
             }
 
@@ -1503,6 +1524,20 @@
                     windowAlias.localStorage.persomiPreviewSet = key;
                 } else if (detectors.hasCookies()) {
                     cookie.setCookie('persomi-preview-set', key, 172800000, configCookiePath, configCookieDomain);
+                }
+            },
+
+            /**
+             *
+             * Specify the Persomi function name to be called by the JSONP response.
+             *
+             * @param string functName The function name to be called by the JSONP response
+             */
+            setPersomiJSONP: function (functName) {
+                if (detectors.hasLocalStorage()) {
+                    windowAlias.localStorage.persomiJSONP = functName;
+                } else if (detectors.hasCookies()) {
+                    cookie.setCookie('persomi-JSONP', functName, 172800000, configCookiePath, configCookieDomain);
                 }
             },
 
