@@ -65,4 +65,11 @@
 			(secure ? ';secure' : '');
 	}
 
+    /*
+     * Erase cookie
+     */
+    object.eraseCookie = function (cookieName) {
+        object.setCookie(cookieName, -1);
+    }
+
 }());

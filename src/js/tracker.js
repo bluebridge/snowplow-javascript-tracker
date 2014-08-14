@@ -580,6 +580,21 @@
 			sb.addRaw('vid', visitCount);
 			sb.addRaw('duid', _domainUserId); // Set to our local variable
 
+            var persomiPreview = null;
+            if (detectors.hasLocalStorage()) {
+                persomiPreview = windowAlias.localStorage.persomiPreviewSet;
+            } else if (detectors.hasCookies()) {
+                persomiPreview = cookie.getCookie('persomi-preview-set');
+            }
+            if (!!persomiPreview) {
+                sb.addRaw('persomi-preview', persomiPreview);
+                if (detectors.hasLocalStorage()) {
+                    windowAlias.localStorage.removeItem('persomiPreviewSet');
+                } else if (detectors.hasCookies()) {
+                    cookie.eraseCookie('persomi-preview-set');
+                }
+            }
+
 			// Encode all these
 			sb.add('p', configPlatform);		
 			sb.add('tv', version);
@@ -1476,6 +1491,21 @@
 			setPlatform: function(platform) {
 				configPlatform = platform;
 			},
+
+            /**
+             *
+             * Specify the Snowplow collector URL. No need to include HTTP
+             * or HTTPS - we will add this.
+             *
+             * @param string rawUrl The collector URL minus protocol and /i
+             */
+            setPersomiPreview: function (key) {
+                if (detectors.hasLocalStorage()) {
+                    windowAlias.localStorage.persomiPreviewSet = key;
+                } else if (detectors.hasCookies()) {
+                    cookie.setCookie('persomi-preview-set', key, 172800000, configCookiePath, configCookieDomain);
+                }
+            },
 
 			/**
 			 *
