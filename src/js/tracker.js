@@ -1494,10 +1494,9 @@
 
             /**
              *
-             * Specify the Snowplow collector URL. No need to include HTTP
-             * or HTTPS - we will add this.
+             * Specify the Persomi key of the banner to preview.
              *
-             * @param string rawUrl The collector URL minus protocol and /i
+             * @param string key The Persomi key of the banner to preview
              */
             setPersomiPreview: function (key) {
                 if (detectors.hasLocalStorage()) {
