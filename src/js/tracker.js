@@ -615,7 +615,7 @@
             if (!!persomiJSONP) {
                 sb.addRaw('jsonp', persomiJSONP);
             }
-            if (!!persomiJSONP) {
+            if (!!persomiSkus) {
                 sb.addRaw('skus', persomiSkus);
                 if (detectors.hasLocalStorage()) {
                     windowAlias.localStorage.removeItem('persomiSkus');
