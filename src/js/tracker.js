@@ -594,12 +594,15 @@
 
             var persomiPreview = null;
             var persomiJSONP = null;
+            var persomiSkus = null;
             if (detectors.hasLocalStorage()) {
                 persomiPreview = windowAlias.localStorage.persomiPreviewSet;
                 persomiJSONP = windowAlias.localStorage.persomiJSONP;
+                persomiSkus = windowAlias.localStorage.persomiSkus;
             } else if (detectors.hasCookies()) {
                 persomiPreview = cookie.getCookie('persomi-preview-set');
                 persomiJSONP = cookie.getCookie('persomi-JSONP');
+                persomiSkus = cookie.getCookie('persomi-skus');
             }
             if (!!persomiPreview) {
                 sb.addRaw('persomi-preview', persomiPreview);
@@ -611,6 +614,14 @@
             }
             if (!!persomiJSONP) {
                 sb.addRaw('jsonp', persomiJSONP);
+            }
+            if (!!persomiJSONP) {
+                sb.addRaw('skus', persomiSkus);
+                if (detectors.hasLocalStorage()) {
+                    windowAlias.localStorage.removeItem('persomiSkus');
+                } else if (detectors.hasCookies()) {
+                    cookie.eraseCookie('persomi-skus');
+                }
             }
 
 			// Encode all these
@@ -1535,6 +1546,20 @@
                     windowAlias.localStorage.persomiJSONP = functName;
                 } else if (detectors.hasCookies()) {
                     cookie.setCookie('persomi-JSONP', functName, 172800000, configCookiePath, configCookieDomain);
+                }
+            },
+
+            /**
+             *
+             * Specify the Persomi function name to be called by the JSONP response.
+             *
+             * @param string functName The function name to be called by the JSONP response
+             */
+            setPersomiSkus: function (skus) {
+                if (detectors.hasLocalStorage()) {
+                    windowAlias.localStorage.persomiSkus = skus;
+                } else if (detectors.hasCookies()) {
+                    cookie.setCookie('persomi-skus', skus, 172800000, configCookiePath, configCookieDomain);
                 }
             },
 
