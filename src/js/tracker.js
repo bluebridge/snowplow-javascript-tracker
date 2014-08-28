@@ -206,7 +206,10 @@
 
 			// Ecommerce transaction data
 			// Will be committed, sent and emptied by a call to trackTrans.
-			ecommerceTransaction = ecommerceTransactionTemplate();
+			ecommerceTransaction = ecommerceTransactionTemplate(),
+            persomiPreview = null,
+            persomiJSONP = null,
+            persomiSkus = null;
 
 		/**
 		 * Determines how to build our collector URL,
@@ -359,6 +362,9 @@
             script.async = true;
             script.src = newSrc; // + (newSrc.indexOf('?')+1 ? '&' : '?') + 'jsonp=' + callbackName;
             head.appendChild(script);
+            
+            //reset persomiJSONP value
+            persomiJSONP = null;
         }
 
 		/*
@@ -368,14 +374,6 @@
 			var now = new Date();
 
 			if (!configDoNotTrack) {
-                var persomiJSONP = null;
-                if (detectors.hasLocalStorage()) {
-                    persomiJSONP = windowAlias.localStorage.persomiJSONP;
-                    windowAlias.localStorage.removeItem('persomiJSONP');
-                } else if (detectors.hasCookies()) {
-                    persomiJSONP = cookie.getCookie('persomi-JSONP');
-                    cookie.eraseCookie('persomi-JSONP');
-                }
                 if (!!persomiJSONP) {
                     getJsonp(request);
                 } else {
@@ -592,36 +590,16 @@
 			sb.addRaw('vid', visitCount);
 			sb.addRaw('duid', _domainUserId); // Set to our local variable
 
-            var persomiPreview = null;
-            var persomiJSONP = null;
-            var persomiSkus = null;
-            if (detectors.hasLocalStorage()) {
-                persomiPreview = windowAlias.localStorage.persomiPreviewSet;
-                persomiJSONP = windowAlias.localStorage.persomiJSONP;
-                persomiSkus = windowAlias.localStorage.persomiSkus;
-            } else if (detectors.hasCookies()) {
-                persomiPreview = cookie.getCookie('persomi-preview-set');
-                persomiJSONP = cookie.getCookie('persomi-JSONP');
-                persomiSkus = cookie.getCookie('persomi-skus');
-            }
             if (!!persomiPreview) {
                 sb.addRaw('persomi-preview', persomiPreview);
-                if (detectors.hasLocalStorage()) {
-                    windowAlias.localStorage.removeItem('persomiPreviewSet');
-                } else if (detectors.hasCookies()) {
-                    cookie.eraseCookie('persomi-preview-set');
-                }
+                persomiPreview = null;
             }
             if (!!persomiJSONP) {
                 sb.addRaw('jsonp', persomiJSONP);
             }
             if (!!persomiSkus) {
                 sb.addRaw('skus', persomiSkus);
-                if (detectors.hasLocalStorage()) {
-                    windowAlias.localStorage.removeItem('persomiSkus');
-                } else if (detectors.hasCookies()) {
-                    cookie.eraseCookie('persomi-skus');
-                }
+                persomiSkus = null;
             }
 
 			// Encode all these
@@ -1528,11 +1506,7 @@
              * @param string key The Persomi key of the banner to preview
              */
             setPersomiPreview: function (key) {
-                if (detectors.hasLocalStorage()) {
-                    windowAlias.localStorage.persomiPreviewSet = key;
-                } else if (detectors.hasCookies()) {
-                    cookie.setCookie('persomi-preview-set', key, 172800000, configCookiePath, configCookieDomain);
-                }
+                persomiPreview = key;
             },
 
             /**
@@ -1542,25 +1516,17 @@
              * @param string functName The function name to be called by the JSONP response
              */
             setPersomiJSONP: function (functName) {
-                if (detectors.hasLocalStorage()) {
-                    windowAlias.localStorage.persomiJSONP = functName;
-                } else if (detectors.hasCookies()) {
-                    cookie.setCookie('persomi-JSONP', functName, 172800000, configCookiePath, configCookieDomain);
-                }
+                persomiJSONP = functName;
             },
 
             /**
              *
-             * Specify the Persomi function name to be called by the JSONP response.
+             * Specify the Persomi given list of sku, comma separated, to be used to get recommendations.
              *
-             * @param string functName The function name to be called by the JSONP response
+             * @param string skus The list of sku comma separated
              */
             setPersomiSkus: function (skus) {
-                if (detectors.hasLocalStorage()) {
-                    windowAlias.localStorage.persomiSkus = skus;
-                } else if (detectors.hasCookies()) {
-                    cookie.setCookie('persomi-skus', skus, 172800000, configCookiePath, configCookieDomain);
-                }
+                persomiSkus = skus;
             },
 
 			/**
