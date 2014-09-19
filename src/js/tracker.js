@@ -877,7 +877,7 @@
          * @param string be_items
          */
             // TODO: add params to comment
-        function logBannerEvent(be_event, be_banner, be_campaign, be_items) {
+        function logBannerEvent(be_event, be_banner, be_campaign, be_items, context) {
             var sb = payload.payloadBuilder(configEncodeBase64);
             sb.add('e', 'be'); // 'be' for Banner Event
             sb.add('be_event', be_event);
@@ -1702,8 +1702,8 @@
              * @param string campaignId
              * @param string itemSkus
              */
-            trackBannerEvent: function (bannerEvent, bannerId, campaignId, itemSkus) {
-                logBannerEvent(bannerEvent, bannerId, campaignId, itemSkus);
+            trackBannerEvent: function (bannerEvent, bannerId, campaignId, itemSkus, context) {
+                logBannerEvent(bannerEvent, bannerId, campaignId, itemSkus, context);
             },
 
 			// ---------------------------------------
