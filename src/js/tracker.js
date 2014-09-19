@@ -880,10 +880,10 @@
         function logBannerEvent(be_event, be_banner, be_campaign, be_items) {
             var sb = payload.payloadBuilder(configEncodeBase64);
             sb.add('e', 'be'); // 'be' for Banner Event
-            sb.add('be_event', orderId);
-            sb.add('be_banner', sku);
-            sb.add('be_campaign', name);
-            sb.add('be_items', category);
+            sb.add('be_event', be_event);
+            sb.add('be_banner', be_banner);
+            sb.add('be_campaign', be_campaign);
+            sb.add('be_items', be_items);
             sb.addJson('cx', 'co', context);
             var request = getRequest(sb, 'bannerEvent');
             sendRequest(request, configTrackerPause);
