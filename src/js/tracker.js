@@ -362,7 +362,7 @@
             script.async = true;
             script.src = newSrc; // + (newSrc.indexOf('?')+1 ? '&' : '?') + 'jsonp=' + callbackName;
             head.appendChild(script);
-            
+
             //reset persomiJSONP value
             persomiJSONP = null;
         }
@@ -867,6 +867,27 @@
 			var request = getRequest(sb, 'transactionItem');
 			sendRequest(request, configTrackerPause);
 		}
+
+        /**
+         * Log persomi banner event
+         *
+         * @param string be_event
+         * @param string be_banner
+         * @param string be_campaign
+         * @param string be_items
+         */
+            // TODO: add params to comment
+        function logBannerEvent(be_event, be_banner, be_campaign, be_items) {
+            var sb = payload.payloadBuilder(configEncodeBase64);
+            sb.add('e', 'be'); // 'be' for Banner Event
+            sb.add('be_event', orderId);
+            sb.add('be_banner', sku);
+            sb.add('be_campaign', name);
+            sb.add('be_items', category);
+            sb.addJson('cx', 'co', context);
+            var request = getRequest(sb, 'bannerEvent');
+            sendRequest(request, configTrackerPause);
+        }
 
 		// ---------------------------------------
 		// Next 2 log methods are not supported in
@@ -1672,6 +1693,18 @@
 
 				ecommerceTransaction = ecommerceTransactionTemplate();
 			},
+
+            /**
+             * Track a banner event happening on this page.
+             *
+             * @param string bannerEvent
+             * @param string bannerId
+             * @param string campaignId
+             * @param string itemSkus
+             */
+            trackBannerEvent: function (bannerEvent, bannerId, campaignId, itemSkus) {
+                logBannerEvent(bannerEvent, bannerId, campaignId, itemSkus);
+            },
 
 			// ---------------------------------------
 			// Next 2 track events not supported in
