@@ -880,10 +880,10 @@
         function logBannerEvent(be_event, be_banner, be_campaign, be_items, context) {
             var sb = payload.payloadBuilder(configEncodeBase64);
             sb.add('e', 'be'); // 'be' for Banner Event
-            sb.add('be_event', be_event);
-            sb.add('be_banner', be_banner);
-            sb.add('be_campaign', be_campaign);
-            sb.add('be_items', be_items);
+            sb.add('be_e', be_event);
+            sb.add('be_id', be_banner);
+            sb.add('be_cid', be_campaign);
+            sb.add('be_iid', be_items);
             sb.addJson('cx', 'co', context);
             var request = getRequest(sb, 'bannerEvent');
             sendRequest(request, configTrackerPause);
@@ -935,6 +935,27 @@
 			var request = getRequest(sb, 'impression');
 			sendRequest(request, configTrackerPause);
 		}
+
+        /**
+         * Log a User Details Capture event
+         *
+         * @param string cu_event capture event name
+         * @param string cu_first_name (optional) Customer First Name
+         * @param string cu_last_name (optional) Customer Last Name
+         * @param string cu_email (optional) Customer E-mail
+         * @param object context Custom context relating to the event
+         */
+        function logUserDetailsCapture(cu_event, cu_first_name, cu_last_name, cu_email, context) {
+            var sb = payload.payloadBuilder(configEncodeBase64);
+            sb.add('e', 'cu'); // 'ad' for AD impression
+            sb.add('cu_e', cu_event);
+            sb.add('cu_fn', cu_first_name)
+            sb.add('cu_ln', cu_last_name);
+            sb.add('cu_em', cu_email);
+            sb.addJson('cx', 'co', context);
+            var request = getRequest(sb, 'impression');
+            sendRequest(request, configTrackerPause);
+        }
 
 		// TODO: add in ad clicks and conversions
 
@@ -1704,6 +1725,18 @@
              */
             trackBannerEvent: function (bannerEvent, bannerId, campaignId, itemSkus, context) {
                 logBannerEvent(bannerEvent, bannerId, campaignId, itemSkus, context);
+            },
+
+            /**
+             * Track a user details capture event happening on this page.
+             *
+             * @param string userDetailsCaptureEvent
+             * @param string firstName
+             * @param string lastName
+             * @param string email
+             */
+            trackUserDetailsCaptureEvent: function (userDetailsCaptureEvent, firstName, lastName, email, context) {
+                logUserDetailsCapture(userDetailsCaptureEvent, firstName, lastName, email, context);
             },
 
 			// ---------------------------------------
