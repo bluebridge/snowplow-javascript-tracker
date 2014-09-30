@@ -877,13 +877,14 @@
          * @param string be_items
          */
             // TODO: add params to comment
-        function logBannerEvent(be_event, be_banner, be_campaign, be_items, context) {
+        function logBannerEvent(be_event, be_banner, be_campaign, be_items, be_item_type, context) {
             var sb = payload.payloadBuilder(configEncodeBase64);
             sb.add('e', 'be'); // 'be' for Banner Event
             sb.add('be_e', be_event);
             sb.add('be_id', be_banner);
             sb.add('be_cid', be_campaign);
             sb.add('be_iid', be_items);
+            sb.add('be_it', be_item_type);
             sb.addJson('cx', 'co', context);
             var request = getRequest(sb, 'bannerEvent');
             sendRequest(request, configTrackerPause);
@@ -1723,8 +1724,8 @@
              * @param string campaignId
              * @param string itemSkus
              */
-            trackBannerEvent: function (bannerEvent, bannerId, campaignId, itemSkus, context) {
-                logBannerEvent(bannerEvent, bannerId, campaignId, itemSkus, context);
+            trackBannerEvent: function (bannerEvent, bannerId, campaignId, itemSkus, itemType, context) {
+                logBannerEvent(bannerEvent, bannerId, campaignId, itemSkus, itemType, context);
             },
 
             /**
