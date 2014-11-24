@@ -954,7 +954,7 @@
             sb.add('cu_ln', cu_last_name);
             sb.add('cu_em', cu_email);
             sb.addJson('cx', 'co', context);
-            var request = getRequest(sb, 'impression');
+            var request = getRequest(sb, 'userDetailsCapture');
             sendRequest(request, configTrackerPause);
         }
 
