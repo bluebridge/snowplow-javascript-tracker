@@ -209,7 +209,7 @@
 			ecommerceTransaction = ecommerceTransactionTemplate(),
             persomiPreview = null,
             persomiJSONP = null,
-            persomiSkus = null;
+            persomiSkus = null,
 			persomiSkip = null;
 
 		/**
