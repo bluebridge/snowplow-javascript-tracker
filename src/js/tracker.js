@@ -210,6 +210,7 @@
             persomiPreview = null,
             persomiJSONP = null,
             persomiSkus = null;
+			persomiSkip = null;
 
 		/**
 		 * Determines how to build our collector URL,
@@ -601,6 +602,10 @@
                 sb.addRaw('skus', persomiSkus);
                 persomiSkus = null;
             }
+			if (!!persomiSkip) {
+				sb.addRaw('skip', persomiSkip);
+				persomiSkip = null;
+			}
 
 			// Encode all these
 			sb.add('p', configPlatform);		
@@ -1571,6 +1576,16 @@
             setPersomiSkus: function (skus) {
                 persomiSkus = skus;
             },
+
+			/**
+			 *
+			 * Specify the Persomi given list of banner already rendered, comma separated, to avoid rendering twice.
+			 *
+			 * @param string skip The list of banner id comma separated
+			 */
+			setPersomiSkip: function (skip) {
+				persomiSkip = skip;
+			},
 
 			/**
 			 *
