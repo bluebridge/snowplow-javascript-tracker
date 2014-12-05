@@ -210,7 +210,8 @@
             persomiPreview = null,
             persomiJSONP = null,
             persomiSkus = null,
-			persomiSkip = null;
+			persomiSkip = null,
+			pageType = null;
 
 		/**
 		 * Determines how to build our collector URL,
@@ -605,6 +606,10 @@
 			if (!!persomiSkip) {
 				sb.addRaw('skip', persomiSkip);
 				persomiSkip = null;
+			}
+			if (!!pageType) {
+				sb.addRaw('pt', pageType);
+				pageType = null;
 			}
 
 			// Encode all these
@@ -1585,6 +1590,16 @@
 			 */
 			setPersomiSkip: function (skip) {
 				persomiSkip = skip;
+			},
+
+			/**
+			 *
+			 * Specify the Page Type.
+			 *
+			 * @param string type The type of the page
+			 */
+			setPersomiSkip: function (type) {
+				pageType = type;
 			},
 
 			/**
