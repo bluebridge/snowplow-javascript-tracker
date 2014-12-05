@@ -1598,7 +1598,7 @@
 			 *
 			 * @param string type The type of the page
 			 */
-			setPersomiSkip: function (type) {
+			setPageType: function (type) {
 				pageType = type;
 			},
 
