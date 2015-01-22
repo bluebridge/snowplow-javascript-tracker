@@ -88,7 +88,7 @@
 			windowAlias = window,
 
 			/* Tracker identifier with version */
-			version = 'js-1.0.4',
+			version = 'js-1.0.5',
 
 			/* Contains three variables that are shared with tracker.js and must be passed by reference */
 			mutSnowplowState = {

@@ -727,6 +727,13 @@
 			}
 		}
 
+        function floor(v) {
+            if (v) {
+                return Math.floor(v);
+            }
+            return v;
+        }
+
 		/*
 		 * Log that a user is still viewing a given page
 		 * by sending a page ping.
@@ -740,10 +747,10 @@
 			var sb = payload.payloadBuilder(configEncodeBase64);
 			sb.add('e', 'pp'); // 'pp' for Page Ping
 			sb.add('page', pageTitle);
-			sb.addRaw('pp_mix', Math.floor(minXOffset)); // Global
-			sb.addRaw('pp_max', Math.floor(maxXOffset)); // Global
-			sb.addRaw('pp_miy', Math.floor(minYOffset)); // Global
-			sb.addRaw('pp_may', Math.floor(maxYOffset)); // Global
+			sb.addRaw('pp_mix', floor(minXOffset)); // Global
+			sb.addRaw('pp_max', floor(maxXOffset)); // Global
+			sb.addRaw('pp_miy', floor(minYOffset)); // Global
+			sb.addRaw('pp_may', floor(maxYOffset)); // Global
 			sb.addJson('cx', 'co', context);
 			resetMaxScrolls();
 			var request = getRequest(sb, 'pagePing');
