@@ -609,7 +609,7 @@
 			}
 			if (!!pageType) {
 				sb.addRaw('pt', pageType);
-				pageType = null;
+				// pageType = null;
 			}
 
 			// Encode all these
