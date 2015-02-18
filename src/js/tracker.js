@@ -98,6 +98,7 @@
 
 			// Document title
 			configTitle = documentAlias.title,
+			// pageTitle = helpers.fixupTitle(customTitle || configTitle);
 
 			// Extensions to be treated as download links
 			configDownloadExtensions = '7z|aac|ar[cj]|as[fx]|avi|bin|csv|deb|dmg|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|ms[ip]|od[bfgpst]|og[gv]|pdf|phps|png|ppt|qtm?|ra[mr]?|rpm|sea|sit|tar|t?bz2?|tgz|torrent|txt|wav|wm[av]|wpd||xls|xml|z|zip',
@@ -614,6 +615,7 @@
 
 			// Encode all these
 			sb.add('p', configPlatform);
+
 			sb.add('tv', version);
 			sb.add('fp', userFingerprint);
 			sb.add('aid', configTrackerSiteId);
@@ -621,6 +623,7 @@
 			sb.add('cs', documentCharset);
 			sb.add('tz', timezone);
 			sb.add('uid', businessUserId); // Business-defined user ID
+			sb.add('page', configTitle); // before only on page view and page ping, now on every request
 
 			// Adds with custom conditions
 			if (configReferrerUrl.length) sb.add('refr', purify(configReferrerUrl));
@@ -676,12 +679,12 @@
 		function logPageView(customTitle, context) {
 
 			// Fixup page title. We'll pass this to logPagePing too.
-			var pageTitle = helpers.fixupTitle(customTitle || configTitle);
+			//var pageTitle = helpers.fixupTitle(customTitle || configTitle);
 
 			// Log page view
 			var sb = payload.payloadBuilder(configEncodeBase64);
 			sb.add('e', 'pv'); // 'pv' for Page View
-			sb.add('page', pageTitle);
+			//sb.add('page', pageTitle);
 			sb.addJson('cx', 'co', context);
 			var request = getRequest(sb, 'pageView');
 			sendRequest(request, configTrackerPause);
@@ -720,7 +723,7 @@
 					if ((lastActivityTime + configHeartBeatTimer) > now.getTime()) {
 						// Send ping if minimum visit time has elapsed
 						if (configMinimumVisitTime < now.getTime()) {
-							logPagePing(pageTitle, context); // Grab the min/max globals
+							logPagePing(customTitle, context); // Grab the min/max globals
 						}
 					}
 				}, configHeartBeatTimer);
@@ -743,10 +746,10 @@
 		 * @param string pageTitle The page title to attach to this page ping
 		 * @param object context Custom context relating to the event
 		 */
-		function logPagePing(pageTitle, context) {
+		function logPagePing(customTitle, context) {
 			var sb = payload.payloadBuilder(configEncodeBase64);
 			sb.add('e', 'pp'); // 'pp' for Page Ping
-			sb.add('page', pageTitle);
+			//sb.add('page', customTitle);
 			sb.addRaw('pp_mix', floor(minXOffset)); // Global
 			sb.addRaw('pp_max', floor(maxXOffset)); // Global
 			sb.addRaw('pp_miy', floor(minYOffset)); // Global
