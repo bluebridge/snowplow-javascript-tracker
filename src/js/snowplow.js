@@ -58,7 +58,7 @@
 	setDownloadExtensions, addDownloadExtensions,
 	setDomains, setIgnoreClasses, setRequestMethod,
 	setReferrerUrl, setCustomUrl, setDocumentTitle,
-	setDownloadClasses, setLinkClasses, setPersomiPreview, setPersomiJSONP, setPersomiSkus, setPersomiSkip, setPageType,
+	setDownloadClasses, setLinkClasses, setPersomiPreview, setPersomiJSONP, setPersomiSkus, setPersomiSkip, setPageType, setEmailChecksum,
 	discardHashTag,
 	setCookieNamePrefix, setCookieDomain, setCookiePath, setVisitorIdCookie,
 	setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout,
