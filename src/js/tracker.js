@@ -212,8 +212,7 @@
             persomiJSONP = null,
             persomiSkus = null,
 			persomiSkip = null,
-			pageType = null,
-            emailChecksum = null;
+		    pageType = null;
 
 		/**
 		 * Determines how to build our collector URL,
@@ -613,9 +612,6 @@
 				sb.addRaw('pt', pageType);
 				// pageType = null;
 			}
-            if (!!emailChecksum) {
-                sb.addRaw('eh', emailChecksum);
-            }
 
 			// Encode all these
 			sb.add('p', configPlatform);
@@ -1615,16 +1611,6 @@
 			setPageType: function (type) {
 				pageType = type;
 			},
-
-            /**
-             *
-             * Specify the Email Checksum.
-             *
-             * @param string emChk The email checksum of the user
-             */
-            setEmailChecksum: function (emChk) {
-                emailChecksum = emChk;
-            },
 
 			/**
 			 *
