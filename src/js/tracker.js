@@ -911,7 +911,7 @@
         }
 
         /**
-         * Log persomi banner event
+         * Log persomi email event
          *
          * @param string be_event
          * @param string be_banner
