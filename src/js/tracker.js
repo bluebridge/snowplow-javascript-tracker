@@ -910,6 +910,27 @@
             sendRequest(request, configTrackerPause);
         }
 
+        /**
+         * Log persomi banner event
+         *
+         * @param string be_event
+         * @param string be_banner
+         * @param string be_campaign
+         * @param string be_items
+         */
+        function logEmailEvent(ee_event, ee_email, ee_campaign, ee_items, ee_item_type, context) {
+            var sb = payload.payloadBuilder(configEncodeBase64);
+            sb.add('e', 'ee'); // 'ee' for Email Event
+            sb.add('ee_e', ee_event);
+            sb.add('ee_id', ee_email);
+            sb.add('ee_cid', ee_campaign);
+            sb.add('ee_iid', ee_items);
+            sb.add('ee_it', ee_item_type);
+            sb.addJson('cx', 'co', context);
+            var request = getRequest(sb, 'emailEvent');
+            sendRequest(request, configTrackerPause);
+        }
+        
 		// ---------------------------------------
 		// Next 2 log methods are not supported in
 		// Snowplow Enrichment process yet
@@ -1766,6 +1787,19 @@
              */
             trackBannerEvent: function (bannerEvent, bannerId, campaignId, itemSkus, itemType, context) {
                 logBannerEvent(bannerEvent, bannerId, campaignId, itemSkus, itemType, context);
+            },
+
+            /**
+                * Track an e-mail event (landing on the site from an e-mail).
+             *
+             * @param string emailEvent
+             * @param string emailId
+             * @param string campaignId
+             * @param string itemSkus
+             * @param string itemType
+             */
+            trackEmailEvent: function (emailEvent, emailId, campaignId, itemSkus, itemType, context) {
+                logEmailEvent(emailEvent, emailId, campaignId, itemSkus, itemType, context);
             },
 
             /**
