@@ -1523,8 +1523,10 @@
 			 *
 			 * @param string userId The business-defined user ID
 			 */
-			setUserId: function(userId) {
-				businessUserId = userId;
+			setUserId: function(userId, override) {
+                if (userId || override) {
+				    businessUserId = userId;
+                }
 			},
 
 			/**
