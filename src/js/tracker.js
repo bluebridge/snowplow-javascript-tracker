@@ -365,9 +365,6 @@
             script.async = true;
             script.src = newSrc; // + (newSrc.indexOf('?')+1 ? '&' : '?') + 'jsonp=' + callbackName;
             head.appendChild(script);
-
-            //reset persomiJSONP value
-            persomiJSONP = null;
         }
 
 		/*
