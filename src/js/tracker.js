@@ -606,7 +606,6 @@
             }
 			if (!!persomiSkip) {
 				sb.addRaw('skip', persomiSkip);
-				persomiSkip = null;
 			}
 			if (!!pageType) {
 				sb.addRaw('pt', pageType);
