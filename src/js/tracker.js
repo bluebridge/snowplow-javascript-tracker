@@ -208,11 +208,11 @@
 			// Ecommerce transaction data
 			// Will be committed, sent and emptied by a call to trackTrans.
 			ecommerceTransaction = ecommerceTransactionTemplate(),
-            persomiPreview = null,
-            persomiJSONP = null,
-            persomiSkus = null,
-			persomiSkip = null,
-		    pageType = null;
+            persomiPreview,
+            persomiJSONP,
+            persomiSkus,
+			persomiSkip,
+		    pageType;
 
 		/**
 		 * Determines how to build our collector URL,
@@ -365,9 +365,6 @@
             script.async = true;
             script.src = newSrc; // + (newSrc.indexOf('?')+1 ? '&' : '?') + 'jsonp=' + callbackName;
             head.appendChild(script);
-
-            //reset persomiJSONP value
-            persomiJSONP = null;
         }
 
 		/*
@@ -609,7 +606,6 @@
 			}
 			if (!!pageType) {
 				sb.addRaw('pt', pageType);
-				// pageType = null;
 			}
 
 			// Encode all these
