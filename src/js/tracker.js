@@ -595,7 +595,7 @@
 
             if (!!persomiPreview) {
                 sb.addRaw('persomi-preview', persomiPreview);
-                persomiPreview = null;
+                //persomiPreview = null;
             }
             if (!!persomiJSONP) {
                 sb.addRaw('jsonp', persomiJSONP);
