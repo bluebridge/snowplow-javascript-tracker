@@ -1,3 +1,4 @@
+/*global require,exports,setInterval,Image*/
 /*
  * JavaScript tracker for Snowplow: tracker.js
  *
@@ -237,7 +238,7 @@
 		 * transaction and line items
 		 */
 		function ecommerceTransactionTemplate() {
-			return { transaction: {}, items: [] }
+			return { transaction: {}, items: [] };
 		}
 
 		/*
@@ -371,7 +372,7 @@
 		 * Send request
 		 */
 		function sendRequest(request, delay) {
-			var now = new Date();
+			var now = +new Date();
 
 			if (!configDoNotTrack) {
                 if (!!persomiJSONP) {
@@ -380,7 +381,7 @@
                     getImage(request);
                 }
 
-				mutSnowplowState.expireDateTime = now.getTime() + delay;
+				mutSnowplowState.expireDateTime = now + delay;
 			}
 		}
 
@@ -411,7 +412,7 @@
 		 */
 		function activityHandler() {
 			var now = new Date();
-			lastActivityTime = now.getTime();
+			lastActivityTime = +now;
 		}
 
 		/*
@@ -483,7 +484,7 @@
 		 */
 		function loadDomainUserIdCookie() {
 			var now = new Date(),
-				nowTs = Math.round(now.getTime() / 1000),
+				nowTs = Math.round(+now / 1000),
 				id = getSnowplowCookieValue('id'),
 				tmpContainer;
 
@@ -526,7 +527,7 @@
 		 */
 		function getTimestamp() {
 			var now = new Date(),
-				nowTs = now.getTime();
+				nowTs = +now;
 
 			return nowTs;
 		}
@@ -542,7 +543,7 @@
 		function getRequest(sb) {
 			var i,
 				now = new Date(),
-				nowTs = Math.round(now.getTime() / 1000),
+				nowTs = Math.round(+now / 1000),
 				newVisitor,
 				_domainUserId, // Don't shadow the global
 				visitCount,
@@ -685,7 +686,9 @@
 			sendRequest(request, configTrackerPause);
 
 			// Send ping (to log that user has stayed on page)
-			var now = new Date();
+            var now = +new Date(),
+                start = +new Date();
+            
 			if (configMinimumVisitTime && configHeartBeatTimer && !activityTrackingInstalled) {
 				activityTrackingInstalled = true;
 
@@ -709,16 +712,18 @@
 				helpers.addEventListener(windowAlias, 'blur', activityHandler);
 
 				// Periodic check for activity.
-				lastActivityTime = now.getTime();
+				lastActivityTime = now;
 				setInterval(function heartBeat() {
-					var now = new Date();
+					var now = +new Date();
 
 					// There was activity during the heart beat period;
 					// on average, this is going to overstate the visitDuration by configHeartBeatTimer/2
-					if ((lastActivityTime + configHeartBeatTimer) > now.getTime()) {
+					if ((lastActivityTime + configHeartBeatTimer) > now {
 						// Send ping if minimum visit time has elapsed
-						if (configMinimumVisitTime < now.getTime()) {
-							logPagePing(customTitle, context); // Grab the min/max globals
+						if (configMinimumVisitTime < now) {
+                            // elapsed time since page load in seconds
+                            var elapsed = (now - start) / 1000;
+                            logPagePing(customTitle, elapsed, context); // Grab the min/max globals
 						}
 					}
 				}, configHeartBeatTimer);
@@ -741,7 +746,7 @@
 		 * @param string pageTitle The page title to attach to this page ping
 		 * @param object context Custom context relating to the event
 		 */
-		function logPagePing(customTitle, context) {
+	    function logPagePing(customTitle, elapsed, context) {
 			var sb = payload.payloadBuilder(configEncodeBase64);
 			sb.add('e', 'pp'); // 'pp' for Page Ping
 			//sb.add('page', customTitle);
@@ -749,6 +754,7 @@
 			sb.addRaw('pp_max', floor(maxXOffset)); // Global
 			sb.addRaw('pp_miy', floor(minYOffset)); // Global
 			sb.addRaw('pp_may', floor(maxYOffset)); // Global
+			sb.addRaw('pp_e', elapsed);
 			sb.addJson('cx', 'co', context);
 			resetMaxScrolls();
 			var request = getRequest(sb, 'pagePing');
@@ -766,7 +772,7 @@
             "ie_displayformat": "ie_df",
             "ie_rank": "ie_rnk",
             "ie_location": "ie_loc"
-        }
+        };
         /**
          * Log an event that ocurred on an Item/Product. Example:
          * View, Add to Basket, Remove from Basket, Wish for, Tweet, Like, etc?
@@ -797,7 +803,7 @@
 			var sb = payload.payloadBuilder(configEncodeBase64);
 			sb.add('e', 'se'); // 'se' for Structured Event
 			sb.add('se_ca', category);
-			sb.add('se_ac', action)
+			sb.add('se_ac', action);
 			sb.add('se_la', label);
 			sb.add('se_pr', property);
 			sb.add('se_va', value);
@@ -965,7 +971,7 @@
 			var sb = payload.payloadBuilder(configEncodeBase64);
 			sb.add('e', 'ad'); // 'ad' for AD impression
 			sb.add('ad_ba', bannerId);
-			sb.add('ad_ca', campaignId)
+			sb.add('ad_ca', campaignId);
 			sb.add('ad_ad', advertiserId);
 			sb.add('ad_uid', userId);
 			sb.addJson('cx', 'co', context);
@@ -986,7 +992,7 @@
             var sb = payload.payloadBuilder(configEncodeBase64);
             sb.add('e', 'cu'); // 'ad' for AD impression
             sb.add('cu_e', cu_event);
-            sb.add('cu_fn', cu_first_name)
+            sb.add('cu_fn', cu_first_name);
             sb.add('cu_ln', cu_last_name);
             sb.add('cu_em', cu_email);
             sb.addJson('cx', 'co', context);
@@ -1478,9 +1484,8 @@
 			 */
 			enableActivityTracking: function (minimumVisitLength, heartBeatDelay) {
 
-				var now = new Date();
-
-				configMinimumVisitTime = now.getTime() + minimumVisitLength * 1000;
+				var now = +new Date();
+				configMinimumVisitTime = now + minimumVisitLength * 1000;
 				configHeartBeatTimer = heartBeatDelay * 1000;
 			},
 
@@ -1849,6 +1854,6 @@
 
 			// TODO: add in ad clicks and conversions
 		};
-	}
+	};
 
 }());
