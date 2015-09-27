@@ -718,7 +718,7 @@
 
 					// There was activity during the heart beat period;
 					// on average, this is going to overstate the visitDuration by configHeartBeatTimer/2
-					if ((lastActivityTime + configHeartBeatTimer) > now {
+					if ((lastActivityTime + configHeartBeatTimer) > now) {
 						// Send ping if minimum visit time has elapsed
 						if (configMinimumVisitTime < now) {
                             // elapsed time since page load in seconds
