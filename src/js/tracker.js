@@ -754,7 +754,7 @@
 			sb.addRaw('pp_max', floor(maxXOffset)); // Global
 			sb.addRaw('pp_miy', floor(minYOffset)); // Global
 			sb.addRaw('pp_may', floor(maxYOffset)); // Global
-			sb.addRaw('pp_e', elapsed);
+			sb.addRaw('pp_e', floor(elapsed));
 			sb.addJson('cx', 'co', context);
 			resetMaxScrolls();
 			var request = getRequest(sb, 'pagePing');
