@@ -879,7 +879,7 @@
 			sb.add('e', 'ti'); // 'ti' for Transaction Item
 			sb.add('ti_id', orderId);
 			sb.add('ti_sk', sku);
-			sb.add('ti_na', name);
+			sb.add('ti_nm', name);
 			sb.add('ti_ca', category);
 			sb.add('ti_pr', price);
 			sb.add('ti_qu', quantity);
