@@ -1,41 +1,40 @@
+/*global require,exports*/
 /*
  * JavaScript tracker for Snowplow: Snowplow.js
- * 
- * Significant portions copyright 2010 Anthon Pang. Remainder copyright 
- * 2012-2014 Snowplow Analytics Ltd. All rights reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without 
- * modification, are permitted provided that the following conditions are 
- * met: 
  *
- * * Redistributions of source code must retain the above copyright 
- *   notice, this list of conditions and the following disclaimer. 
+ * Significant portions copyright 2010 Anthon Pang. Remainder copyright
+ * 2012-2014 Snowplow Analytics Ltd. All rights reserved.
  *
- * * Redistributions in binary form must reproduce the above copyright 
- *   notice, this list of conditions and the following disclaimer in the 
- *   documentation and/or other materials provided with the distribution. 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * * Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ *
+ * * Redistributions in binary form must reproduce the above copyright
+ *   notice, this list of conditions and the following disclaimer in the
+ *   documentation and/or other materials provided with the distribution.
  *
  * * Neither the name of Anthon Pang nor Snowplow Analytics Ltd nor the
  *   names of their contributors may be used to endorse or promote products
- *   derived from this software without specific prior written permission. 
+ *   derived from this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR 
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 ;(function () {
 
-	var 
-		lodash = require('./lodash'),
-
+	var lodash = require('./lodash'),
 		object = typeof exports !== 'undefined' ? exports : this; // For eventual node.js environment support
 
 	/*
@@ -43,7 +42,7 @@
 	 */
 	object.encodeUtf8 = function (argString) {
 		return unescape(decodeURIComponent(argString));
-	}
+	};
 
 	/**
 	 * Cleans up the page title
@@ -58,7 +57,7 @@
 			}
 		}
 		return title;
-	}
+	};
 
 	/*
 	 * Extract hostname from URL
@@ -69,7 +68,7 @@
 			matches = e.exec(url);
 
 		return matches ? matches[1] : url;
-	}
+	};
 
 	/*
 	 * Fix-up URL when page rendered from search engine cache or translated page.
@@ -102,7 +101,7 @@
 			hostName = object.getHostName(href);
 		}
 		return [hostName, href, referrer];
-	}
+	};
 
 	/*
 	 * Fix-up domain
@@ -119,17 +118,16 @@
 			domain = domain.slice(1);
 		}
 		return domain;
-	}
+	};
 
 	/*
 	 * Get page referrer
 	 */
 	object.getReferrer = function () {
 
-		var referrer = '';
-		
-		var fromQs = object.fromQuerystring('referrer', window.location.href) ||
-		object.fromQuerystring('referer', window.location.href);
+		var referrer = '',
+		    fromQs = object.fromQuerystring('referrer', window.location.href) ||
+		        object.fromQuerystring('referer', window.location.href);
 
 		// Short-circuit
 		if (fromQs) {
@@ -151,7 +149,7 @@
 			referrer = document.referrer;
 		}
 		return referrer;
-	}
+	};
 
 	/*
 	 * Cross-browser helper function to add event handler
@@ -165,10 +163,10 @@
 			return element.attachEvent('on' + eventType, eventHandler);
 		}
 		element['on' + eventType] = eventHandler;
-	}
+	};
 
 	/*
-	 * Return value from name-value pair in querystring 
+	 * Return value from name-value pair in querystring
 	 */
 	object.fromQuerystring = function (field, url) {
 		var match = RegExp('^[^#]*[?&]' + field + '=([^&#]*)').exec(url);
@@ -176,6 +174,6 @@
 			return null;
 		}
 		return decodeURIComponent(match[1].replace(/\+/g, ' '));
-	}
+	};
 
 }());
