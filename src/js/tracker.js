@@ -688,7 +688,7 @@
 			// Send ping (to log that user has stayed on page)
             var now = +new Date(),
                 start = +new Date();
-            
+
 			if (configMinimumVisitTime && configHeartBeatTimer && !activityTrackingInstalled) {
 				activityTrackingInstalled = true;
 
@@ -931,7 +931,7 @@
             var request = getRequest(sb, 'emailEvent');
             sendRequest(request, configTrackerPause);
         }
-        
+
 		// ---------------------------------------
 		// Next 2 log methods are not supported in
 		// Snowplow Enrichment process yet
@@ -1524,7 +1524,7 @@
 			 * @param string userId The business-defined user ID
 			 */
 			setUserId: function(userId, override) {
-                if (userId || override) {
+                if ((userId || override) && userId !== 'undefined') {
 				    businessUserId = userId;
                 }
 			},
