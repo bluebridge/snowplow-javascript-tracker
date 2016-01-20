@@ -35,8 +35,8 @@
 
 ;(function() {
 
-	var
-		lodash = require('./lodash'),
+	var isUndefined = require('lodash/isUndefined'),
+        isFunction = require('lodash/isFunction'),
 		helpers = require('./helpers'),
 		cookie = require('./cookie'),
 		murmurhash3_32_gc = require('murmurhash').v3,
@@ -81,7 +81,7 @@
 	object.hasCookies = function(testCookieName) {
 		var cookieName = testCookieName || 'testcookie';
 
-		if (lodash.isUndefined(navigatorAlias.cookieEnabled)) {
+		if (isUndefined(navigatorAlias.cookieEnabled)) {
 			cookie.setCookie(cookieName, '1');
 			return cookie.getCookie(cookieName) === '1' ? '1' : '0';
 		}
@@ -198,13 +198,13 @@
 		// Safari and Opera
 		// IE6/IE7 navigator.javaEnabled can't be aliased, so test directly
 		if (typeof navigatorAlias.javaEnabled !== 'unknown' &&
-				!lodash.isUndefined(navigatorAlias.javaEnabled) &&
+				!isUndefined(navigatorAlias.javaEnabled) &&
 				navigatorAlias.javaEnabled()) {
 			features.java = '1';
 		}
 
 		// Firefox
-		if (lodash.isFunction(windowAlias.GearsFactory)) {
+		if (isFunction(windowAlias.GearsFactory)) {
 			features.gears = '1';
 		}
 

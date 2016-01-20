@@ -34,7 +34,8 @@
  */
 ;(function () {
 
-	var lodash = require('./lodash'),
+	var isString = require('lodash/isString'),
+        isUndefined = require('lodash/isUndefined'),
 		object = typeof exports !== 'undefined' ? exports : this; // For eventual node.js environment support
 
 	/*
@@ -48,11 +49,11 @@
 	 * Cleans up the page title
 	 */
 	object.fixupTitle = function (title) {
-		if (!lodash.isString(title)) {
+		if (!isString(title)) {
 			title = title.text || '';
 
 			var tmp = document.getElementsByTagName('title');
-			if (tmp && !lodash.isUndefined(tmp[0])) {
+			if (tmp && !isUndefined(tmp[0])) {
 				title = tmp[0].text;
 			}
 		}

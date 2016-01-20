@@ -35,8 +35,8 @@
 
 ;(function() {
 
-	var
-		lodash = require('./lib/lodash'),
+	var isUndefined = require('lodash/isUndefined'),
+        isString = require('lodash/isString'),
 		helpers = require('./lib/helpers'),
 		cookie = require('./lib/cookie'),
 		detectors = require('./lib/detectors'),
@@ -1102,12 +1102,12 @@
 				linkType;
 
 			while ((parentElement = sourceElement.parentNode) !== null &&
-					!lodash.isUndefined(parentElement) && // buggy IE5.5
+					!isUndefined(parentElement) && // buggy IE5.5
 					((tag = sourceElement.tagName.toUpperCase()) !== 'A' && tag !== 'AREA')) {
 				sourceElement = parentElement;
 			}
 
-			if (!lodash.isUndefined(sourceElement.href)) {
+			if (!isUndefined(sourceElement.href)) {
 				// browsers, such as Safari, don't downcase hostname and href
 				var originalSourceHostName = sourceElement.hostname || helpers.getHostName(sourceElement.href),
 					sourceHostName = originalSourceHostName.toLowerCase(),
@@ -1280,7 +1280,7 @@
 			 * @param string|array hostsAlias
 			 */
 			setDomains: function (hostsAlias) {
-				configHostsAlias = lodash.isString(hostsAlias) ? [hostsAlias] : hostsAlias;
+				configHostsAlias = isString(hostsAlias) ? [hostsAlias] : hostsAlias;
 				configHostsAlias.push(domainAlias);
 			},
 
@@ -1290,7 +1290,7 @@
 			 * @param string|array ignoreClasses
 			 */
 			setIgnoreClasses: function (ignoreClasses) {
-				configIgnoreClasses = lodash.isString(ignoreClasses) ? [ignoreClasses] : ignoreClasses;
+				configIgnoreClasses = isString(ignoreClasses) ? [ignoreClasses] : ignoreClasses;
 			},
 
 			/**
@@ -1326,7 +1326,7 @@
 			 * @param string|array downloadClasses
 			 */
 			setDownloadClasses: function (downloadClasses) {
-				configDownloadClasses = lodash.isString(downloadClasses) ? [downloadClasses] : downloadClasses;
+				configDownloadClasses = isString(downloadClasses) ? [downloadClasses] : downloadClasses;
 			},
 
 			/**
@@ -1335,7 +1335,7 @@
 			 * @param string|array linkClasses
 			 */
 			setLinkClasses: function (linkClasses) {
-				configLinkClasses = lodash.isString(linkClasses) ? [linkClasses] : linkClasses;
+				configLinkClasses = isString(linkClasses) ? [linkClasses] : linkClasses;
 			},
 
 			/**

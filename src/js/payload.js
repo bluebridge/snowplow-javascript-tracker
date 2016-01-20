@@ -35,7 +35,9 @@
 
 ;(function() {
 
-	var lodash = require('./lib/lodash'),
+	var isUndefined = require('lodash/isUndefined'),
+        isNull = require('lodash/isNull'),
+        isDate = require('lodash/isDate'),
 		json2 = require('JSON'),
 		base64 = require('./lib/base64'),
 		object = typeof exports !== 'undefined' ? exports : this; // For eventual node.js environment support
@@ -72,7 +74,7 @@
 	 * Is property a JSON?
 	 */
 	object.isJson = function (property) {
-		return (!lodash.isUndefined(property) && !lodash.isNull(property) && property.constructor === {}.constructor);
+		return (!isUndefined(property) && !isNull(property) && property.constructor === {}.constructor);
 	};
 
 	/*
@@ -150,7 +152,7 @@
 					if (json.hasOwnProperty(key)) {
 
 						// ... for JavaScript Dates
-						if (lodash.isDate(value)) {
+						if (isDate(value)) {
 							type = getPropertySuffix(key);
 							if (!type) {
 								type = 'tms';
