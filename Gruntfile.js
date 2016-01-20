@@ -99,7 +99,7 @@ module.exports = function(grunt) {
     concat: {
       dist: {
         options: {
-          'report': 'gzip',
+          'report': 'min',
           'banner': '<%= banner %>'
         },
         src: ['dist/bundle.js'],
@@ -112,7 +112,7 @@ module.exports = function(grunt) {
       dist: {
         options: {
           linebreak: 1000,
-          report: 'gzip'
+          report: 'min'
         },
         files: [
           {
@@ -177,9 +177,9 @@ module.exports = function(grunt) {
           {
             src: 'dist/sp.js',
             dest: '<%= pkg.pinnedVersion %>/sp.js'
-          }        
+          }
         ]
-      },  
+      },
     });
 
     grunt.config('invalidate_cloudfront', {
