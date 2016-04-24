@@ -1,3 +1,4 @@
+/*global require,exports*/
 /*
  * JavaScript tracker for Snowplow: snowplow.js
  *

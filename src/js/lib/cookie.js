@@ -70,7 +70,7 @@
      * Erase cookie
      */
     object.eraseCookie = function (cookieName) {
-        object.setCookie(cookieName, -1);
+        object.setCookie(cookieName, '', -1);
     };
 
 }());

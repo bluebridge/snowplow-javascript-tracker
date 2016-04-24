@@ -43,6 +43,7 @@
 		payload = require('./payload'),
 		json2 = require('JSON'),
 		sha1 = require('sha1'),
+        md5 = require('md5-jkmyers'),
 
 		object = typeof exports !== 'undefined' ? exports : this; // For eventual node.js environment support
 
@@ -1528,6 +1529,18 @@
 				    businessUserId = userId;
                 }
 			},
+            /**
+             *  Generate a business user ID from the hash of the email address.
+             */
+            setUserEmail: function(email) {
+                if (!email ||
+                    !email.contains('@') ||
+                    !email.split('@')[1].split('.').length > 1) {
+                    return;
+                }
+                var hash = md5(email.toLowerCase());
+                this.setUserId(hash);
+            },
 
 			/**
 			 * Set the business-defined user ID for this user using the location querystring.
