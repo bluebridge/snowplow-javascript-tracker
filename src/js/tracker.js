@@ -1534,7 +1534,7 @@
              */
             setUserEmail: function(email) {
                 if (!email ||
-                    !email.contains('@') ||
+                    email.indexOf('@') < 0 ||
                     !email.split('@')[1].split('.').length > 1) {
                     return;
                 }
