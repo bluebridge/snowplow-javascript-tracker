@@ -875,7 +875,7 @@
 		 * @param object context Custom context relating to the event
 		 */
 		// TODO: add params to comment
-		function logTransactionItem(orderId, sku, name, category, price, quantity, currency, context) {
+		function logTransactionItem(orderId, sku, name, category, price, quantity, priceRegular, currency, context) {
 			var sb = payload.payloadBuilder(configEncodeBase64);
 			sb.add('e', 'ti'); // 'ti' for Transaction Item
 			sb.add('ti_id', orderId);
@@ -883,6 +883,7 @@
 			sb.add('ti_nm', name);
 			sb.add('ti_ca', category);
 			sb.add('ti_pr', price);
+            sb.add('ti_prr', priceRegular);
 			sb.add('ti_qu', quantity);
 			sb.add('ti_cu', currency);
 			sb.addJson('cx', 'co', context);
@@ -1743,13 +1744,14 @@
 			 * @param string currency Optional. Product price currency.
 			 * @param object context Option. Context relating to the event.
 			 */
-			addItem: function(orderId, sku, name, category, price, quantity, currency, context) {
+			addItem: function(orderId, sku, name, category, price, quantity, priceRegular, currency, context) {
 				ecommerceTransaction.items.push({
 					orderId: orderId,
 					sku: sku,
 					name: name,
 					category: category,
 					price: price,
+                    priceRegular: priceRegular,
 					quantity: quantity,
 					currency: currency,
 					context: context
@@ -1784,6 +1786,7 @@
 						item.category,
 						item.price,
 						item.quantity,
+                        item.priceRegular,
 						item.currency,
 						item.context
 						);

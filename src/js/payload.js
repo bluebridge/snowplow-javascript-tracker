@@ -106,7 +106,7 @@
 		var str = '';
 
 		var addNvPair = function (key, value, encode) {
-				if (value !== undefined && value !== null && value !== '') {
+			if (value !== undefined && value !== null && value !== '') {
 				var sep = (str.length > 0) ? "&" : "?";
 				str += sep + key + '=' + (encode ? encodeURIComponent(value) : value);
 			}
@@ -119,7 +119,9 @@
 			var e = new RegExp('\\$(.[^\\$]+)$'),
 			    matches = e.exec(property);
 
-			if (matches) return matches[1];
+			if (matches) {
+                return matches[1];
+            }
 		};
 
 		/*
