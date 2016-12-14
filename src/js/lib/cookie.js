@@ -1,4 +1,4 @@
-/*global exports*/
+/*global exports,document*/
 /*
  * JavaScript tracker for Snowplow: cookie.js
  *

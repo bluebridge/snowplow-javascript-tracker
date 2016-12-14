@@ -842,10 +842,12 @@
 	 	 * @param string state
 	 	 * @param string country
 	 	 * @param string currency The currency the total/tax/shipping are expressed in
+         * @param string coupon code
+         * @param string coupon discount
 		 * @param object context Custom context relating to the event
 		 */
 		// TODO: add params to comment
-		function logTransaction(orderId, affiliation, total, tax, shipping, city, state, country, currency, context) {
+		function logTransaction(orderId, affiliation, total, tax, shipping, city, state, country, currency, couponCode, couponDiscount, context) {
 			var sb = payload.payloadBuilder(configEncodeBase64);
 			sb.add('e', 'tr'); // 'tr' for TRansaction
 			sb.add('tr_id', orderId);
@@ -857,6 +859,8 @@
 			sb.add('tr_st', state);
 			sb.add('tr_co', country);
 			sb.add('tr_cu', currency);
+			sb.add('tr_cc', couponCode);
+            sb.add('tr_cd', couponDiscount);
 			sb.addJson('cx', 'co', context);
 			var request = getRequest(sb, 'transaction');
 			sendRequest(request, configTrackerPause);
@@ -898,9 +902,10 @@
          * @param string be_banner
          * @param string be_campaign
          * @param string be_items
+         * @param string be_coupon_code
          */
             // TODO: add params to comment
-        function logBannerEvent(be_event, be_banner, be_campaign, be_items, be_item_type, context) {
+        function logBannerEvent(be_event, be_banner, be_campaign, be_items, be_item_type, be_coupon_code, context) {
             var sb = payload.payloadBuilder(configEncodeBase64);
             sb.add('e', 'be'); // 'be' for Banner Event
             sb.add('be_e', be_event);
@@ -908,6 +913,7 @@
             sb.add('be_cid', be_campaign);
             sb.add('be_iid', be_items);
             sb.add('be_it', be_item_type);
+            sb.add('be_cc', be_coupon_code);
             sb.addJson('cx', 'co', context);
             var request = getRequest(sb, 'bannerEvent');
             sendRequest(request, configTrackerPause);
@@ -1717,18 +1723,20 @@
 			 * @param string currency Optional. Currency to associate with this transaction.
 			 * @param object context Option. Context relating to the event.
 			 */
-			addTrans: function(orderId, affiliation, total, tax, shipping, city, state, country, currency, context) {
+			addTrans: function(orderId, affiliation, total, tax, shipping, city, state, country, currency, couponCode, couponDiscount, context) {
 				ecommerceTransaction.transaction = {
-					 orderId: orderId,
-					 affiliation: affiliation,
-					 total: total,
-					 tax: tax,
-					 shipping: shipping,
-					 city: city,
-					 state: state,
-					 country: country,
-					 currency: currency,
-					 context: context
+					orderId: orderId,
+					affiliation: affiliation,
+					total: total,
+					tax: tax,
+					shipping: shipping,
+					city: city,
+					state: state,
+					country: country,
+					currency: currency,
+                    couponCode: couponCode,
+                    couponDiscount: couponDiscount,
+					context: context
 				};
 			},
 
@@ -1766,17 +1774,19 @@
 			 */
 			trackTrans: function() {
 				 logTransaction(
-						 ecommerceTransaction.transaction.orderId,
-						 ecommerceTransaction.transaction.affiliation,
-						 ecommerceTransaction.transaction.total,
-						 ecommerceTransaction.transaction.tax,
-						 ecommerceTransaction.transaction.shipping,
-						 ecommerceTransaction.transaction.city,
-						 ecommerceTransaction.transaction.state,
-						 ecommerceTransaction.transaction.country,
-						 ecommerceTransaction.transaction.currency,
-						 ecommerceTransaction.transaction.context
-						);
+					 ecommerceTransaction.transaction.orderId,
+					 ecommerceTransaction.transaction.affiliation,
+					 ecommerceTransaction.transaction.total,
+					 ecommerceTransaction.transaction.tax,
+					 ecommerceTransaction.transaction.shipping,
+					 ecommerceTransaction.transaction.city,
+					 ecommerceTransaction.transaction.state,
+					 ecommerceTransaction.transaction.country,
+					 ecommerceTransaction.transaction.currency,
+                     ecommerceTransaction.transaction.couponCode,
+                     ecommerceTransaction.transaction.couponDiscount,
+					 ecommerceTransaction.transaction.context
+				 );
 				for (var i = 0; i < ecommerceTransaction.items.length; i++) {
 					var item = ecommerceTransaction.items[i];
 					logTransactionItem(
@@ -1803,8 +1813,8 @@
              * @param string campaignId
              * @param string itemSkus
              */
-            trackBannerEvent: function (bannerEvent, bannerId, campaignId, itemSkus, itemType, context) {
-                logBannerEvent(bannerEvent, bannerId, campaignId, itemSkus, itemType, context);
+            trackBannerEvent: function (bannerEvent, bannerId, campaignId, itemSkus, itemType, couponCode, context) {
+                logBannerEvent(bannerEvent, bannerId, campaignId, itemSkus, itemType, couponCode, context);
             },
 
             /**
