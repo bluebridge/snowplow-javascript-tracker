@@ -41,7 +41,7 @@
 		cookie = require('./lib/cookie'),
 		detectors = require('./lib/detectors'),
 		payload = require('./payload'),
-		json2 = require('JSON'),
+		// json2 = require('JSON'),
 		sha1 = require('sha1'),
         md5 = require('md5-jkmyers'),
 
@@ -500,7 +500,7 @@
 					domainUserId = hash(
 						(navigatorAlias.userAgent || '') +
 							(navigatorAlias.platform || '') +
-							json2.stringify(browserFeatures) + nowTs
+							JSON.stringify(browserFeatures) + nowTs
 					).slice(0, 16); // 16 hexits = 64 bits
 				}
 

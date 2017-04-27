@@ -38,7 +38,7 @@
 	var isUndefined = require('lodash/isUndefined'),
         isNull = require('lodash/isNull'),
         isDate = require('lodash/isDate'),
-		json2 = require('JSON'),
+		//json2 = require('JSON'),
 		base64 = require('./lib/base64'),
 		object = typeof exports !== 'undefined' ? exports : this; // For eventual node.js environment support
 
@@ -190,7 +190,7 @@
 
 			if (object.isNonEmptyJson(json)) {
 				var typed = appendTypes(json);
-				var str = json2.stringify(typed);
+				var str = JSON.stringify(typed);
 
 				if (base64Encode) {
 					addRaw(keyIfEncoded, base64urlencode(str));
