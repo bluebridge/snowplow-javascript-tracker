@@ -40,7 +40,7 @@
 		helpers = require('./helpers'),
 		cookie = require('./cookie'),
 		murmurhash3_32_gc = require('murmurhash').v3,
-		tz = require('jstimezonedetect').jstz.determine(),
+		tz = require('jstimezonedetect').determine(), // jstz.
 
 		object = typeof exports !== 'undefined' ? exports : this, // For eventual node.js environment support
 
