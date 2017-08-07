@@ -214,7 +214,8 @@
             persomiJSONP,
             persomiSkus,
 			persomiSkip,
-		    pageType;
+            pageType,
+            categories;
 
 		/**
 		 * Determines how to build our collector URL,
@@ -608,7 +609,10 @@
 			}
 			if (!!pageType) {
 				sb.addRaw('pt', pageType);
-			}
+            }
+            if (!!categories) {
+                sb.addRaw('cat', categories);
+            }
 
 			// Encode all these
 			sb.add('p', configPlatform);
@@ -1653,7 +1657,17 @@
 			 */
 			setPageType: function (type) {
 				pageType = type;
-			},
+            },
+
+			/**
+			 *
+			 * Specify the Categories for the next events
+			 *
+			 * @param string|array categories Primary category first
+			 */
+            setCategories: function(categories) {
+                categories = categories;
+            },
 
 			/**
 			 *
