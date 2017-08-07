@@ -610,9 +610,6 @@
 			if (!!pageType) {
 				sb.addRaw('pt', pageType);
             }
-            if (!!categories) {
-                sb.addRaw('cat', categories);
-            }
 
 			// Encode all these
 			sb.add('p', configPlatform);
@@ -625,6 +622,10 @@
 			sb.add('tz', timezone);
 			sb.add('uid', businessUserId); // Business-defined user ID
 			sb.add('page', configTitle); // before only on page view and page ping, now on every request
+
+            if (!!categories) {
+                sb.add('cat', categories);
+            }
 
 			// Adds with custom conditions
 			if (configReferrerUrl.length) sb.add('refr', purify(configReferrerUrl));
@@ -884,12 +885,13 @@
 		 */
 		// TODO: add params to comment
 		function logTransactionItem(orderId, sku, name, category, price, quantity, priceRegular, currency, context) {
+            categories = category;
 			var sb = payload.payloadBuilder(configEncodeBase64);
 			sb.add('e', 'ti'); // 'ti' for Transaction Item
 			sb.add('ti_id', orderId);
 			sb.add('ti_sk', sku);
 			sb.add('ti_nm', name);
-			sb.add('ti_ca', category);
+			// sb.add('ti_ca', category);
 			sb.add('ti_pr', price);
             sb.add('ti_prr', priceRegular);
 			sb.add('ti_qu', quantity);
@@ -1663,10 +1665,10 @@
 			 *
 			 * Specify the Categories for the next events
 			 *
-			 * @param string|array categories Primary category first
+			 * @param string categories Primary category first, comma separated
 			 */
-            setCategories: function(categories) {
-                categories = categories;
+            setCategories: function(cats) {
+                categories = cats;
             },
 
 			/**
@@ -1802,7 +1804,7 @@
 					 ecommerceTransaction.transaction.context
 				 );
 				for (var i = 0; i < ecommerceTransaction.items.length; i++) {
-					var item = ecommerceTransaction.items[i];
+                    var item = ecommerceTransaction.items[i];
 					logTransactionItem(
 						item.orderId,
 						item.sku,
@@ -1815,7 +1817,7 @@
 						item.context
 						);
 				}
-
+                categories = null; // reset categories due to items
 				ecommerceTransaction = ecommerceTransactionTemplate();
 			},
 
