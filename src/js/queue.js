@@ -75,7 +75,8 @@
 		}
 
 		return {
-			push: applyAsyncFunction
+            _t: asyncTracker, // private
+			push: applyAsyncFunction,
 		};
 	}
 
